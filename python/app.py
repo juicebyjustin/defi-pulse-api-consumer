@@ -37,9 +37,9 @@ async def save_tracked_orders(dt, trackedOrders):
         LOGGER.fatal(ex, exc_info=True)
 
 
-async def OpenJsonDataFile():
+async def OpenGetProjectsJsonDataFile():
     try:
-        filename = 'data.json'
+        filename = 'data-GetProjects.json'
         if path.exists(filename) == False:
             return
 
@@ -50,8 +50,19 @@ async def OpenJsonDataFile():
             LOGGER.info(f'Loaded json data from file {filename}')
 
             for dataObj in dataObjs:
-                print(dataObj['category'])
-                print(dataObj['name'])
+                print(f"{dataObj['name']}")
+                print(f"\tCategory: {dataObj['category']}")
+                print(f"\tCategory: {dataObj['chain']}")
+                print(f"\t24hr Change: {dataObj['relative_1d']}%")
+
+                #for value in dataObj['value']:
+                #    print(f"\t{value}")
+                #    for item in value:
+                #        print(f"\t\t{item['value']}")
+
+
+                #print(f"\tCategory: {dataObj['variability']}")
+                #print(f"\tCategory: {dataObj['website']}")
 
             return dataObjs
 
@@ -65,7 +76,7 @@ async def OpenJsonDataFile():
 
 try:
     loop = asyncio.get_event_loop()
-    task1 = loop.create_task(OpenJsonDataFile())
+    task1 = loop.create_task(OpenGetProjectsJsonDataFile())
     loop.run_until_complete(asyncio.gather(task1))
 except KeyboardInterrupt:
     pass
